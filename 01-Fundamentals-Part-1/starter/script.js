@@ -26,7 +26,6 @@ age = 31;
 const birthYear = 1980;
 // birthYear = 1981; // assignment to constant variable error
 
-*/
 
 const myAge = 40;
 const yourAge = 39;
@@ -46,9 +45,49 @@ x *= 4;
 console.log(x);
 
 
+let x, y;
+x = y = 25 - 10 - 5; // x = y = 10
+console.log(x, y);
+
+
+// BMI challenge
+
+const bmi = (mass, height) => {
+  return mass / height ** 2;
+};
+
+const markMass = 78;
+const markHeight = 1.69;
+const johnMass = 92;
+const johnHeight = 1.95;
+
+console.log(bmi(markMass, markHeight));
+
+const markHigherBMI = bmi(markMass, markHeight) > bmi(johnMass, johnHeight);
+console.log(markHigherBMI);
+*/
+
+
+const firstName = "Thomas";
+const job = "Happiness Manager";
+const birthYear = 1980;
+const year = 2020;
+
+const thomas = "I'm " + firstName + ", a " + (year - birthYear) + " year old " + job + "!";
+console.log(thomas);
+
+// Template literals
+
+const thomasNew = `I'm ${firstName}, a ${year - birthYear} year old ${job}!`;
+console.log(thomasNew);
+
+console.log("This is a \n\
+traditional multiline \n\
+string written with n line breaks");
+
+console.log(`This is
+a multiline
+string created with
+backticks!`);
 
 console.log("This is the last line.");
-
-
-
-// const job; // error
