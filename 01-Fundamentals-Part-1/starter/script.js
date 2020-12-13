@@ -50,23 +50,6 @@ x = y = 25 - 10 - 5; // x = y = 10
 console.log(x, y);
 
 
-// BMI challenge
-
-const bmi = (mass, height) => {
-  return mass / height ** 2;
-};
-
-const markMass = 78;
-const markHeight = 1.69;
-const johnMass = 92;
-const johnHeight = 1.95;
-
-console.log(bmi(markMass, markHeight));
-
-const markHigherBMI = bmi(markMass, markHeight) > bmi(johnMass, johnHeight);
-console.log(markHigherBMI);
-*/
-
 
 const firstName = "Thomas";
 const job = "Happiness Manager";
@@ -89,5 +72,55 @@ console.log(`This is
 a multiline
 string created with
 backticks!`);
+
+
+const age = 15;
+// const isOldEnough = age >= 18;
+
+
+// Control structure
+
+if (age >= 18) {
+  console.log("Sarah can start her driving licence");
+} else {
+  const yearsLeft = 18 - age;
+  console.log(`Sarah is too young, wait another ${yearsLeft} years.`);
+}
+
+const birthYear = 1991;
+
+let century;
+if (birthYear <= 2000) {
+  century = 20;
+} else {
+  century = 21;
+}
+
+console.log(century);
+*/
+
+// Challenge 2
+
+// BMI challenge 2
+
+const bmi = (mass, height) => {
+  return mass / height ** 2;
+};
+
+const markMass = 78;
+const markHeight = 1.69;
+const johnMass = 92;
+const johnHeight = 1.95;
+const bmiMark = bmi(markMass, markHeight);
+const bmiJohn = bmi(johnMass, johnHeight);
+
+
+// const markHigherBMI = bmi(markMass, markHeight) > bmi(johnMass, johnHeight);
+
+if (bmiMark > bmiJohn) {
+  console.log(`Mark's BMI is ${bmiMark} and therefore is higher than John's BMI of ${bmiJohn}`);
+} else {
+  console.log(`Mark's BMI is ${bmiMark} and therefore is lower than John's BMI of ${bmiJohn}`);
+}
 
 console.log("This is the last line.");
