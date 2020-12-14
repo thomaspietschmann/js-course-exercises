@@ -97,7 +97,6 @@ if (birthYear <= 2000) {
 }
 
 console.log(century);
-*/
 
 // Challenge 2
 
@@ -123,4 +122,48 @@ if (bmiMark > bmiJohn) {
   console.log(`Mark's BMI is ${bmiMark} and therefore is lower than John's BMI of ${bmiJohn}`);
 }
 
-console.log("This is the last line.");
+
+
+//convert string to number
+const inputYear = "1991";
+console.log(typeof inputYear);
+console.log(Number(inputYear), inputYear);
+console.log(Number(inputYear) + 18);
+console.log(Number("Thomas"));
+console.log(typeof NaN);
+
+console.log(String(1980), 1980);
+
+//type coercion, 2 values with different types
+
+console.log("I am " + 40 + " years old.");
+console.log("23" + "10" + 3);
+console.log("23" - "10" - 3);
+console.log("23" / "2");
+console.log("23" > "18");
+
+let n = "1" + 1;
+n = n - 1;
+console.log(n);
+
+
+*/
+
+
+// false = not really false, but will false when converted to boolean
+// 0, "", undefined, null, NaN
+console.log(Boolean(0));
+console.log(Boolean(undefined));
+console.log(Boolean("Thomas"));
+console.log(Boolean(""));
+console.log(Boolean({}));
+
+const money = 100;
+if (money) {
+  console.log("Don't spend it all");
+} else {
+  console.log("You should get a job.")
+}
+
+
+//truthy =
