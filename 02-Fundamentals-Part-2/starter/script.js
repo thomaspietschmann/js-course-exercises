@@ -159,7 +159,6 @@ const bills = [125, 555, 44];
 const tips = [calcTip(bills[0]), calcTip(bills[1]), calcTip(bills[2])];
 console.log(tips);
 
-*/
 
 const thomas = {
   firstName: "Thomas",
@@ -182,8 +181,8 @@ console.log(thomas["last" + nameKey]);
 
 // const interestedIn = prompt("What do you want to know about Thomas?");
 // if (thomas[interestedIn]) {
-//   console.log(thomas[interestedIn]);
-// } else {
+  //   console.log(thomas[interestedIn]);
+  // } else {
 //   console.log("Value doesn't exist...")
 // }
 
@@ -191,3 +190,29 @@ console.log(thomas["last" + nameKey]);
 // Thomas has 3 friends and his best friend is called Marco.
 
 console.log(`${thomas.firstName} has ${thomas.friends.length} and his best friend is ${thomas.friends[2]}`);
+*/
+
+const thomas = {
+  firstName: "Thomas",
+  lastName: "Pietschmann",
+  birthYear: 1980,
+  job: "busy man",
+  friends: ["Peter", "Steffi", "Marco"],
+  hasDriversLicense: true,
+  calcAge: function () {
+    this.age = 2020 - this.birthYear;
+    return this.age;
+  },
+  getSummary: function () {
+    return `${this.firstName} is a ${this.calcAge()} year old ${this.job} and he has ${this.hasDriversLicense ? "a" : "no"} driver's license. Además he has ${this.friends.length} friends.`
+  }
+}
+
+// console.log(thomas.calcAge(thomas.birthYear));
+console.log(thomas.firstName);
+console.log(thomas);
+console.log(thomas.calcAge());
+console.log(thomas.age);
+console.log("Hmmm");
+
+console.log(thomas.getSummary());
