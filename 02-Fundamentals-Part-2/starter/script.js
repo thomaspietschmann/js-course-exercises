@@ -303,7 +303,6 @@ for (let i = 0; i < thomas.length; i++) {
   console.log(thomas[i], typeof thomas[i]);
 }
 
-*/
 const thomas = [
   "Thomas",
   "Pietschmann",
@@ -322,3 +321,49 @@ for (let exercise = 1; exercise <= 3; exercise++) {
     console.log(`Exercise ${exercise}, repetition ${rep}`);
   }
 }
+
+console.log();
+
+let dice = Math.trunc(Math.random() * 6) + 1;
+console.log(dice);
+while (dice != 6) {
+  console.log(`you rolled a ${dice}`);
+  dice = Math.trunc(Math.random() * 6) + 1;
+  if (dice === 6) {
+    console.log("Loop is about to end");
+  }
+}
+
+*/
+
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+const tips = [];
+const totals = [];
+
+const calcTip = function (bill) {
+  if (bill >= 50 && bill <= 300) {
+    return bill * 0.15;
+  } else {
+    return bill * 0.15;
+  }
+}
+
+bills.forEach(bill => {
+  let tip = calcTip(bill);
+  tips.push(tip);
+  totals.push(bill + tip);
+
+});
+
+
+console.log(bills, tips, totals);
+
+function calcAverage(arr) {
+  let sum = 0;
+  arr.forEach(number => {
+    sum = sum + number;
+  })
+  return sum / arr.length;
+}
+
+console.log(calcAverage(totals));
