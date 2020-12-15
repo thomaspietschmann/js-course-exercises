@@ -190,7 +190,6 @@ console.log(thomas["last" + nameKey]);
 // Thomas has 3 friends and his best friend is called Marco.
 
 console.log(`${thomas.firstName} has ${thomas.friends.length} and his best friend is ${thomas.friends[2]}`);
-*/
 
 const thomas = {
   firstName: "Thomas",
@@ -216,3 +215,110 @@ console.log(thomas.age);
 console.log("Hmmm");
 
 console.log(thomas.getSummary());
+
+
+const mark = {
+  firstName: "Mark",
+  mass: 78,
+  height: 1.69,
+  calcBMI: function () {
+    this.bmi = (this.mass / this.height ** 2);
+    return this.bmi;
+  }
+}
+
+const john = {
+  firstName: "John",
+  mass: 192,
+  height: 1.95,
+  calcBMI: function () {
+    this.bmi = (this.mass / this.height ** 2);
+    return this.bmi;
+  }
+}
+
+// console.log(mark.calcBMI());
+console.log(mark.bmi);
+console.log(john.bmi);
+
+if (john.calcBMI() > mark.calcBMI()) {
+  console.log(`${john.firstName}'s BMI is ${john.bmi} and therefore higher than ${mark.firstName}'s BMI of ${mark.bmi}`);
+}
+
+for (let rep = 1; rep <= 10; rep++) {
+  console.log(`Lifting weights repetition ${rep}`);
+}
+
+
+
+const thomas = [
+  "Thomas",
+  "Pietschmann",
+  2020 - 1980,
+  "happiness manager",
+  ["Steffi", "Peter", "Marco"]
+]
+const types = [];
+
+for (let i = 0; i < thomas.length; i++) {
+  // Reading from array
+  console.log(thomas[i], typeof thomas[i]);
+  // Adding to array
+  // types[i] = typeof thomas[i];
+  types.push(typeof thomas[i]);
+}
+
+console.log(types);
+
+const years = [1992, 2007, 1969, 2019];
+const ages = [];
+
+for (let i = 0; i < years.length; i++) {
+  ages.push(2020 - years[i])
+}
+
+console.log(ages);
+
+
+const thomas = [
+  "Thomas",
+  "Pietschmann",
+  2020 - 1980,
+  "happiness manager",
+  ["Steffi", "Peter", "Marco"]
+]
+const types = [];
+
+// continue and break
+console.log("--- ONLY STRINGS ---");
+for (let i = 0; i < thomas.length; i++) {
+  if (typeof thomas[i] !== "string") continue;
+  console.log(thomas[i], typeof thomas[i]);
+}
+
+// continue and break
+console.log("--- BREAK WITH NUMBER ---");
+for (let i = 0; i < thomas.length; i++) {
+  if (typeof thomas[i] === "number") break;
+  console.log(thomas[i], typeof thomas[i]);
+}
+
+*/
+const thomas = [
+  "Thomas",
+  "Pietschmann",
+  2020 - 1980,
+  "happiness manager",
+  ["Steffi", "Peter", "Marco"]
+]
+
+for (let i = thomas.length - 1; i >= 0; i--) {
+  console.log(`Index: ${i}`, thomas[i]);
+}
+
+for (let exercise = 1; exercise <= 3; exercise++) {
+  console.log("Starting exercise")
+  for (let rep = 1; rep <= 10; rep++) {
+    console.log(`Exercise ${exercise}, repetition ${rep}`);
+  }
+}
