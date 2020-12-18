@@ -1,0 +1,52 @@
+
+/*
+// Procedural vs Object-oriented vs functional programming
+
+// Imperative vs declarative
+// first-class functions: functions are treated as variables. They can be passed into other functions and be returned from functions
+
+// Concurrency model: engine handles multiple tasks happening at the same time
+// Javascript only runs in onte thread
+
+// JS Engine Call Stack + Heap
+// Call stack: execution context
+// Heap: where objects are stored in memory
+
+// Compilation: entire code is converted into machine code at oncuechange, written to binary file that can then be executed later on by a computer
+// Interpretation: Interpreter runs through source code and executed it line by line at the same time! (code still needs to be converted to machine code). Used to be much slower!
+// JS ist not an interpreted language any more. It now uses Just-in-time compilation. Execution happens immediately after compilation.
+// 1) Code is being parsed into abstract syntax tree (AST). Has nothing to do with the DOM tree!
+// 2) Compilation of AST into machine code
+// 3) Execution right away (happens in call stack)
+// 4) Code is being optimized during execution to make it start fast. Happens in special threads
+
+// Runtime (contains everything the browser needs to execute JS) in the browser:
+// --> JS Engine
+// -- WEB APIs: DOM, Timers, Fetch API, etc... Functionalities provided to the engine accessible on window object
+// callback queue: click, timer, data. Callback function is put into queue. When call stack is empty, it is passed to the call stack and will be executed. "Event loop"
+
+// When code is compiled --> creation of global execution context (for top-level code)
+// for every function an execution context will be created with all the necessary information to run the function
+what's inside the execution context?
+1) -let, const, var
+-functions
+-arguments object
+2) scope chain
+3) this keyword
+Generated during "creation phase" right before execution
+arrow functions do NOT have arguments object and this keyword
+
+Scope: where do variables live? Where can we access them?
+
+Scoping is controlled by WHERE we write our functions and code blocks.
+global scope, function scope or block scopoe
+
+Variable lookup in SCOPE
+LET and CONST are BLOCK-SCOPED
+VAR is FUNCTION-SCOPED
+
+SCOPE CHAIN vs. CALL STACK
+
+
+
+*/
