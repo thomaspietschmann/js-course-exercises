@@ -1,0 +1,19 @@
+this keyword
+IMPORTANT!
+
+this variable is created for every execution context / function
+
+it is NOT static, depends on how the function is called
+
+1) object method
+this = object that is calling the method
+
+2) simple function call
+this = undefined (in strict mode, otherwise points to window object)
+
+3) arrow functions
+this = this of surrounding function (lexical this)
+
+4) event listener
+this = DOM element that handler is attached to
+

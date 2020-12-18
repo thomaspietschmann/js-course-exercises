@@ -1,0 +1,19 @@
+hoisting: make variables accessible before they are actually declared
+
+Before execution: code is scanned for variable declarations
+
+function declarations: hoisted yes
+
+var variables: hoisted yes, will return undefined when used before declaring it
+AVOID VAR
+
+let and const: not hoisted, initial value "uninitialized", Temporal Dead
+
+function expressions and arrows:
+depends if created with var, const or let
+
+Temporal Dead Zone:
+
+region of scope where variable can not be accessed (lines above declaration)
+
+Why TDZ?: makes it easier to avoid and catch errors
