@@ -1,5 +1,7 @@
 'use strict';
 
+/*
+
 // Default values
 
 const bookings = [];
@@ -117,6 +119,8 @@ greetArrow('Hi')('Darling');
 
 //
 
+*/
+
 const lufthansa = {
   airline: 'Lufthansa',
   iataCode: 'LH',
@@ -170,3 +174,45 @@ console.log(swiss);
 
 // prefer CALL and spread operator!
 book.call(swiss, ...flightData);
+
+// Bind method (bind does not call function immediately, it returns a new function)
+
+// book.call(swiss, ...flightData);
+const bookEW = book.bind(eurowings);
+const bookLH = book.bind(lufthansa);
+const bookLX = book.bind(swiss);
+bookEW(203, 'Stevy Willy');
+
+const bookEW23 = book.bind(eurowings, 23); // partial application
+bookEW23('Tommy K.');
+
+// With event listeners
+lufthansa.planes = 300;
+lufthansa.buyPlane = function () {
+  console.log(this); // this points to button!
+  this.planes++;
+  console.log(this.planes);
+};
+
+document
+  .querySelector('.buy')
+  .addEventListener('click', lufthansa.buyPlane.bind(lufthansa)); // does not work, this points to button!
+
+// Partial application (presetting parameters)
+
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200));
+
+const addVAT = addTax.bind(null, 0.19); // null because this keyword not needed
+console.log(addVAT(200));
+
+// const addTaxFunction = function (rate) {
+//   return function (value) {
+//     return value + value * rate;
+//   };
+// };
+
+const addTaxFunction = rate => value => value + value * rate;
+
+const addVATnew = addTaxFunction(0.19);
+console.log(`Calculated total is ${addVATnew(100)}`);
