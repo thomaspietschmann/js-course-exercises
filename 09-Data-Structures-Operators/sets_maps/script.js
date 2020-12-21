@@ -119,6 +119,60 @@ console.log(rest.get(arr));
 
 console.log();
 
+const question = new Map([
+  ['question', 'what is the best programming language in the world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct! :)'],
+  [false, 'Try again...'],
+]);
+
+console.log(question);
+
+// Convert objects to map
+
+const openingHours = restaurant.openingHours;
+console.log(typeof openingHours);
+console.log(Object.entries(openingHours));
+const hoursMap = new Map(Object.entries(openingHours));
+console.log(hoursMap);
+
+console.log(question.get('question'));
+for (const [key, value] of question) {
+  if (typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+}
+// const answer = Number(prompt('Your answer'));
+const answer = 3;
+console.log(answer);
+console.log(question.get(answer === question.get('correct')));
+
+// Convert map to array
+console.log(...question);
+console.log(...question.entries());
+console.log(...question.keys());
+console.log(...question.values());
+
+/*
+Which data structure to use?
+---simple list: arrays or sets, when we do not need to describe the values
+
+sets: when values need to be unique, when high-performance is important, use to remove duplicates from array
+
+---key/value? objects or maps
+
+objects vs maps:
+objects: easier to write and access
+maps: better performance, any data type, easy to iterate
+map: use when you need keys that are not strings
+
+functions: use object (methods)
+JSON: use object (can convert to map)
+
+
+*/
+
 // #############################################
 
 const game = {
@@ -161,3 +215,32 @@ const game = {
     team2: 6.5,
   },
 };
+
+// Coding Challenge 3
+
+const gameEvents = new Map([
+  [17, '⚽ GOAL'],
+  [36, '🔁 Substitution'],
+  [47, '⚽ GOAL'],
+  [61, '🔁 Substitution'],
+  [64, '🔶 Yellow card'],
+  [69, '🔴 Red card'],
+  [70, '🔁 Substitution'],
+  [72, '🔁 Substitution'],
+  [76, '⚽ GOAL'],
+  [80, '⚽ GOAL'],
+  [92, '🔶 Yellow card'],
+]);
+
+const events = new Set(gameEvents.values());
+console.log(events);
+gameEvents.delete(64);
+console.log(gameEvents);
+console.log(
+  `On average an event happened every ${90 / gameEvents.size} minutes`
+);
+for (const [minute, event] of gameEvents) {
+  console.log(
+    `${minute <= 45 ? '[FIRST HALF]' : '[SECOND HALF]'} ${minute}: ${event}`
+  );
+}
