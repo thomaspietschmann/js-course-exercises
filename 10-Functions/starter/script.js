@@ -119,7 +119,7 @@ greetArrow('Hi')('Darling');
 
 //
 
-*/
+
 
 const lufthansa = {
   airline: 'Lufthansa',
@@ -216,3 +216,159 @@ const addTaxFunction = rate => value => value + value * rate;
 
 const addVATnew = addTaxFunction(0.19);
 console.log(`Calculated total is ${addVATnew(100)}`);
+
+
+const poll = {
+  question: 'What is your favourite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0),
+  registerNewAnswer() {
+    const choice = Number(
+      prompt(`${this.question}\n${this.options.join('\n')}`)
+    );
+    this.registerAnswer(choice);
+  },
+  registerAnswer(choice) {
+    if (typeof choice === 'number' && choice >= 0 && choice <= 3) {
+      this.answers[choice] += 1;
+      console.log('Answer saved.');
+    } else {
+      alert('Invalid answer! Try again:');
+      this.registerNewAnswer();
+    }
+    this.displayResults(this.answers, 'string');
+  },
+  displayResults(type) {
+    if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    } else {
+      console.log(`Answers are: ${this.answers}`);
+    }
+  },
+};
+
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+const data1 = [5, 2, 3];
+const data2 = [1, 5, 3, 9, 6, 1];
+
+// const displayResultsStr = poll.displayResults.bind(data);
+// const displayResultsStr = poll.displayResults.bind(null, 'string');
+// const displayResultsArr = poll.displayResults.bind(null, 'array');
+// displayResultsStr(data1);
+// displayResultsArr(data1);
+// displayResultsStr(data2);
+// displayResultsArr(data2);
+
+poll.displayResults.call({ answers: data1 }, 'string');
+poll.displayResults.call({ answers: data2 }, 'array');
+
+
+// immediately invoked function expressions (IIFE)
+
+const runOnce = function () {
+  console.log('This will never run again');
+};
+runOnce();
+
+// paranthesis transform it into expression
+// !!!!!
+(function () {
+  console.log('This will never run again');
+  const isPrivate = 23; // private / encapsulated
+})();
+
+// console.log(isPrivate);
+
+(() => console.log('This will also never run again'))();
+
+// WHY???
+
+{
+  const isPrivate = 23;
+  var notPrivate = 46;
+}
+// console.log(isPrivate);
+console.log(notPrivate);
+
+
+// Closures
+// Closure happens in certain situations
+
+const secureBooking = function () {
+  let passengerCount = 0;
+  return function () {
+    passengerCount++;
+    console.log(`passenger count: ${passengerCount}`);
+  };
+};
+
+const booker = secureBooking();
+booker();
+booker();
+booker();
+
+// Closure makes functions remember their variable environment of when they were created / born
+
+// variables in closure have priority over global variables!!
+
+// closure is like a backpack, that the function is carrying around
+
+// look into the backpack:
+
+console.dir(booker);
+
+// Example 1
+
+let f;
+
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f();
+
+// Reassigning f function (in function h)
+h();
+f();
+
+// Example 2: timer. setTimeout has access to variables even after boardPassengers has finished running
+
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
+
+  console.log(`Will start boarding in ${wait} seconds.`);
+};
+
+const perGroup = 1000; // does not have priority over variable inside function
+boardPassengers(180, 3);
+
+*/
+
+// Closure challenge
+
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+  document.addEventListener('click', function () {
+    console.log('clicked');
+    header.style.color = 'blue';
+  });
+})();
