@@ -372,3 +372,5 @@ boardPassengers(180, 3);
     header.style.color = 'blue';
   });
 })();
+// header is in the backpack of the function
+
