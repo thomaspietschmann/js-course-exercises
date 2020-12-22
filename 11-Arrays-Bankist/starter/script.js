@@ -80,6 +80,12 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+calcDisplayBalance(account1.movements);
+
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -90,7 +96,7 @@ const createUsernames = function (accs) {
   });
 };
 createUsernames(accounts);
-console.log(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -101,10 +107,9 @@ console.log(accounts);
 //   ['GBP', 'Pound sterling'],
 // ]);
 
-/*
-
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+/*
 /////////////////////////////////////////////////
 
 let arr = ['a', 'b', 'c', 'd', 'e'];
@@ -230,3 +235,64 @@ const movementsDescr = movements.map(
 console.log(movementsDescr);
 
 */
+
+const deposits = movements.filter((mov, i, arr) => mov > 0);
+
+console.log(deposits);
+
+const withdrawals = movements.filter(mov => mov < 0);
+console.log(withdrawals);
+
+// accumulator = "snowball"
+// const balance = movements.reduce(function (acc, current, index, array) {
+//   console.log(`Iteration ${index}: ${acc}`);
+//   return (acc += current);
+// }, 0); // 0 is the first value for the accumulator
+
+const balance = movements.reduce((acc, current) => (acc += current), 0); // 0 is the first value for the accumulator
+
+console.log(balance);
+
+let balance2 = 0;
+for (const mov of movements) balance2 += mov;
+console.log(balance2);
+
+// Maximum value of movements array
+
+const maximum = movements.reduce(
+  (acc, mov) => (acc > mov ? acc : mov),
+  movements[0]
+);
+
+console.log(maximum);
+
+const calcAverageHumanAge = dogs => {
+  const humanAges = dogs.map(dog => (dog <= 2 ? dog * 2 : 16 + dog * 4));
+  const onlyAdultDogs = humanAges.filter(age => age >= 18);
+  console.log(onlyAdultDogs);
+  // const average =
+  //   onlyAdultDogs.reduce((acc, cur) => acc + cur, 0) / onlyAdultDogs.length;
+  const average = onlyAdultDogs.reduce(
+    (acc, cur, i, arr) => acc + cur / arr.length,
+    0
+  );
+  console.log(average);
+};
+
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+
+// Your tasks:
+// Create a function 'calcAverageHumanAge', which accepts an arrays of dog's
+// ages ('ages'), and does the following things in order:
+// 1. Calculate the dog age in human years using the following formula: if the dog is
+// <= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old,
+// humanAge = 16 + dogAge * 4
+// 2. Exclude all dogs that are less than 18 human years old (which is the same as
+// keeping dogs that are at least 18 years old)
+// 3. Calculate the average human age of all adult dogs (you should already know
+// from other challenges how we calculate averages 😉)
+// 4. Run the function for both test datasets
+// Test data:
+// § Data 1: [5, 2, 4, 1, 15, 8, 3]
+// § Data 2: [16, 6, 10, 5, 6, 1, 4]
