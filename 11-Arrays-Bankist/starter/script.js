@@ -445,7 +445,7 @@ for (const account2 of accounts) {
   }
 }
 
-*/
+
 
 // SOME METHOD
 
@@ -520,3 +520,44 @@ console.log(movements);
 // DESCENDING
 movements.sort((a, b) => b - a);
 console.log(movements);
+*/
+
+// filling arrays
+
+const arr = [1, 2, 3, 4, 5, 6, 7];
+const x = new Array(7); // creates array with 7 empty elements
+console.log(x);
+
+// x.fill(1); // fills all with 1
+// x.fill(1, 3); // fills 1 from index 3
+x.fill(1, 3, 5);
+console.log(x);
+
+arr.fill(23, 4, 6);
+console.log(arr);
+
+// Array.from
+
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+
+const z = Array.from({ length: 7 }, (_cur, index) => index + 1);
+console.log(z);
+
+// convert nodelist into array
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', ''))
+  );
+  console.log(movementsUI);
+});
+
+// Which array method to use when
+
+// what do I actually want from this method?
+// mutate or not?
+// an array index or an element?
+// know if array includes or a new string?
+// to transform to value or just to loop
