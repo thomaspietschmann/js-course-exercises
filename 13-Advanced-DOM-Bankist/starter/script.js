@@ -8,6 +8,9 @@ const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
 const openModal = function (e) {
   e.preventDefault();
   modal.classList.remove('hidden');
@@ -30,118 +33,144 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-/*
-
-////////////////////////////
-// SELECT, CREATE AND DELETE
-
-// seleting
-console.log(document.documentElement);
-console.log(document.head);
-console.log(document.body);
-
-const header = document.querySelector('.header');
-const allSections = document.querySelectorAll('.section');
-console.log(allSections);
-
-document.getElementById('section--1');
-const allButtons = document.getElementsByTagName('button');
-console.log(allButtons);
-
-// getElementsByTagName returns "collection", not a Node List
-// collections are updated immediately when changes to the DOM are made
-
-document.getElementsByClassName('btn'); // also returns collection
-
-// creating and inserting
-// .insertAdjacentHTML
-
-const message = document.createElement('div'); // returns DOM element
-message.classList.add('cookie-message');
-// message.textContent = "We use coookies for improved functionality and analytis."
-message.innerHTML = `We use coookies for improved functionality and analytis. <button class="btn btn--close-cookie">Got it!</button>`;
-
-// header.prepend(message);
-header.append(message); // live element that can only be at one place at a time! Only appears at append position.
-// header.append(message.cloneNode(true)); // appends a copy!
-
-header.before(message);
-// header.after(message);
-
-// delete elements
-
-document.querySelector('.btn--close-cookie').addEventListener('click', () => {
-  message.remove();
-});
-
-// Styles (applied as inline styles)
-
-message.style.backgroundColor = '#37383d';
-message.style.width = '120%';
-
-console.log(message.style.height); // won't work
-console.log(message.style.backGroundColor); // will work because inline style
-
-console.log(getComputedStyle(message).color);
-console.log(getComputedStyle(message).height);
-console.log(Number.parseFloat(getComputedStyle(message).height));
-
-message.style.height =
-  Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
-
-document.documentElement.style.setProperty('--color-primary', 'orangered');
-
-// Attributes (src, alt, class, id...)
-
-const logo = document.querySelector('.nav__logo');
-// standard properties
-console.log(logo.alt);
-console.log(logo.src);
-console.log(logo.className);
-
-logo.alt = 'Beautiful minimalist logo';
-
-// non-standard
-console.log(logo.designer); // undefined
-console.log(logo.getAttribute('designer')); // works!
-logo.setAttribute('company', 'Bankist');
-console.log(logo.getAttribute('src')); // returns relative URL
-
-const link = document.querySelector('.nav__link--btn');
-console.log(link.href);
-console.log(link.getAttribute('href'));
-
-// data attributes
-console.log(logo.dataset.versionNumber);
-
-// classes
-logo.classList.add('c');
-logo.classList.remove('c', 'j', 'u');
-logo.classList.toggle('c');
-logo.classList.contains('nav__logo'); // returns Boolean. attention: not includes (as in arrays);
-
-// don't use, overwrites all classes!!!
-logo.className = 'Jonas';
-
-*/
-
-// Smooth scroll
-// we need coordinates to tell JS where to scroll to
-
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
-
+// Button scrolling
 btnScrollTo.addEventListener('click', function (e) {
   const s1coords = section1.getBoundingClientRect();
   console.log(s1coords); // DOMRectange
   console.log(e.target.getBoundingClientRect());
   console.log(`Current scroll (X/Y)`, window.pageXOffset, pageYOffset);
-
   console.log(
     `height/width of viewport`,
     document.documentElement.clientHeight,
     document.documentElement.clientWidth
   );
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+// using event delegation for navigation (with bubbling)
+
+// inefficient way
+// document.querySelectorAll('.nav__link').forEach(el => {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault(); // so it doesn't scroll to anchor
+//     const id = this.getAttribute('href'); // to get relative URL!
+//     console.log(id);
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+//   });
+// });
+
+// more efficient way! Using currentTarget and bubbling
+// putting listener on common parent (nav)
+// "EVENT DELEGATION"
+// 1. add event listener to common parent
+// 2. determine what element originated the event
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+  // console.log(e.target);
+
+  // Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    // console.log(e.target);
+    console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+////////////////////////////
+// SELECT, CREATE AND DELETE
+/*
+  // selecting
+  console.log(document.documentElement);
+  console.log(document.head);
+  console.log(document.body);
+
+  const header = document.querySelector('.header');
+  const allSections = document.querySelectorAll('.section');
+  console.log(allSections);
+
+  document.getElementById('section--1');
+  const allButtons = document.getElementsByTagName('button');
+  console.log(allButtons);
+
+  // getElementsByTagName returns "collection", not a Node List
+  // collections are updated immediately when changes to the DOM are made
+
+  document.getElementsByClassName('btn'); // also returns collection
+
+  // creating and inserting
+  // .insertAdjacentHTML
+
+  const message = document.createElement('div'); // returns DOM element
+  message.classList.add('cookie-message');
+  // message.textContent = "We use coookies for improved functionality and analytis."
+  message.innerHTML = `We use coookies for improved functionality and analytis. <button class="btn btn--close-cookie">Got it!</button>`;
+
+  // header.prepend(message);
+  header.append(message); // live element that can only be at one place at a time! Only appears at append position.
+  // header.append(message.cloneNode(true)); // appends a copy!
+
+  header.before(message);
+  // header.after(message);
+
+  // delete elements
+
+  document.querySelector('.btn--close-cookie').addEventListener('click', () => {
+    message.remove();
+  });
+
+  // Styles (applied as inline styles)
+
+  message.style.backgroundColor = '#37383d';
+  message.style.width = '120%';
+
+  console.log(message.style.height); // won't work
+  console.log(message.style.backGroundColor); // will work because inline style
+
+  console.log(getComputedStyle(message).color);
+  console.log(getComputedStyle(message).height);
+  console.log(Number.parseFloat(getComputedStyle(message).height));
+
+  message.style.height =
+    Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+
+  document.documentElement.style.setProperty('--color-primary', 'orangered');
+
+  // Attributes (src, alt, class, id...)
+
+  const logo = document.querySelector('.nav__logo');
+  // standard properties
+  console.log(logo.alt);
+  console.log(logo.src);
+  console.log(logo.className);
+
+  logo.alt = 'Beautiful minimalist logo';
+
+  // non-standard
+  console.log(logo.designer); // undefined
+  console.log(logo.getAttribute('designer')); // works!
+  logo.setAttribute('company', 'Bankist');
+  console.log(logo.getAttribute('src')); // returns relative URL
+
+  const link = document.querySelector('.nav__link--btn');
+  console.log(link.href);
+  console.log(link.getAttribute('href'));
+
+  // data attributes
+  console.log(logo.dataset.versionNumber);
+
+  // classes
+  logo.classList.add('c');
+  logo.classList.remove('c', 'j', 'u');
+  logo.classList.toggle('c');
+  logo.classList.contains('nav__logo'); // returns Boolean. attention: not includes (as in arrays);
+
+  // don't use, overwrites all classes!!!
+  logo.className = 'Jonas';
+
+  // Smooth scroll
+  // we need coordinates to tell JS where to scroll to
 
   // Scrolling (old school way)
   // window.scrollTo(
@@ -157,8 +186,7 @@ btnScrollTo.addEventListener('click', function (e) {
 
   // Scrolling the modern way
 
-  section1.scrollIntoView({ behavior: 'smooth' });
-});
+
 
 // EVENTS
 
@@ -188,7 +216,6 @@ setTimeout(() => {
 // CAPTURING AND BUBBLING
 // events bubble up from the target to the root
 
-// rgb(255,255,255)
 const randomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 const randomColor = () =>
@@ -214,8 +241,9 @@ document.querySelector('.nav').addEventListener(
     console.log('NAV', e.target, e.currentTarget);
     this.style.backgroundColor = randomColor();
   },
-  true
-); // will now listen to capturing events
+  false
+); // if "true" will listen to capturing events
 
 // event target is always the same, even if even bubbles up
 // event currenTarget is where the event happens, not the one that is clicked. (=== this)
+*/
