@@ -163,11 +163,11 @@ const initialCoords = section1.getBoundingClientRect();
 
 const header = document.querySelector('.header');
 const navHeight = nav.getBoundingClientRect().height;
-console.log(navHeight);
+// console.log(navHeight);
 
 const stickyNav = function (entries) {
   const [entry] = entries; // same as entry = entries[0]
-  console.log(entry);
+  // console.log(entry);
   if (entry.isIntersecting === false) {
     nav.classList.add('sticky');
   } else {
@@ -181,6 +181,55 @@ const headerObserver = new IntersectionObserver(stickyNav, {
   rootMargin: `-${navHeight}px`, // box of 90 px applied outside of target
 });
 headerObserver.observe(header);
+
+// Reveal sections
+
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  // console.log(entry);
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target); // improve performance
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+const allSections = document.querySelectorAll('.section');
+
+allSections.forEach(section => {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
+
+// Lazy loading images
+
+const imgTargets = document.querySelectorAll('img[data-src]');
+
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+  if (!entry.isIntersecting) return;
+  // Replace src attribute with data-src
+  entry.target.src = entry.target.dataset.src;
+
+  entry.target.addEventListener('load', () => {
+    entry.target.classList.remove('lazy-img');
+  });
+  observer.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px', // make pictures load before they enter the viewport
+});
+
+imgTargets.forEach(img => {
+  imgObserver.observe(img);
+});
 
 ////////////////////////////
 // SELECT, CREATE AND DELETE
