@@ -11,6 +11,12 @@ const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 
+const nav = document.querySelector('.nav');
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
 const openModal = function (e) {
   e.preventDefault();
   modal.classList.remove('hidden');
@@ -80,10 +86,6 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 
 // Tabbed component
 
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
-
 tabsContainer.addEventListener('click', function (e) {
   const clicked = e.target.closest('.operations__tab');
   console.log(clicked);
@@ -103,6 +105,82 @@ tabsContainer.addEventListener('click', function (e) {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
 });
+
+// Menu fade animation
+
+const handleHover = function (e, opacity) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+};
+
+// nav.addEventListener('mouseover', e => handleHover(e, 0.5));
+
+// Passing "argument" into handle function
+nav.addEventListener('mouseover', handleHover.bind(0.5)); // opacity will be "this" in handler function
+
+nav.addEventListener('mouseout', handleHover.bind(0.5));
+
+// Sticky navigation
+const initialCoords = section1.getBoundingClientRect();
+// console.log(initialCoords);
+
+// use scroll event, NOT EFFICIENT!
+// window.addEventListener('scroll', function (e) {
+//   if (window.scrollY >= initialCoords.top) {
+//     nav.classList.add('sticky');
+//   } else {
+//     nav.classList.remove('sticky');
+//   }
+// });
+
+// alternative: INTERSECTION OBSERVER API
+
+// const obsCallback = function (entries, observer) {
+//   // whenever section1 intersects viewport (root) at 10% (threshold) the function will be called
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   });
+// };
+
+// const obsOptions = {
+//   root: null,
+//   threshold: [0, 0.2],
+// };
+
+// // intersecting: true: selection is visible in viewport with at least the percentage defined in threshold
+
+// const observer = new IntersectionObserver(obsCallback, obsOptions);
+
+// observer.observe(section1);
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+console.log(navHeight);
+
+const stickyNav = function (entries) {
+  const [entry] = entries; // same as entry = entries[0]
+  console.log(entry);
+  if (entry.isIntersecting === false) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0, // header scrolled completely out of viewport
+  rootMargin: `-${navHeight}px`, // box of 90 px applied outside of target
+});
+headerObserver.observe(header);
 
 ////////////////////////////
 // SELECT, CREATE AND DELETE
