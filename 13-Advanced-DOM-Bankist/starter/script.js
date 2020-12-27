@@ -78,6 +78,32 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
   }
 });
 
+// Tabbed component
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+  console.log(clicked);
+
+  // Guard clause -> returns and finishes the function early if nothing is clicked
+  if (!clicked) return;
+
+  // Active tab
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+
+  // Activate content area
+
+  console.log(clicked.dataset.tab);
+  tabsContent.forEach(t => t.classList.remove('operations__content--active'));
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
 ////////////////////////////
 // SELECT, CREATE AND DELETE
 /*
@@ -246,4 +272,45 @@ document.querySelector('.nav').addEventListener(
 
 // event target is always the same, even if even bubbles up
 // event currenTarget is where the event happens, not the one that is clicked. (=== this)
+
+
+// DOM Traversing (selecting elements from another element)
+
+const h1 = document.querySelector('h1');
+
+// going downwards: child
+
+console.log(h1.querySelectorAll('.highlight')); // no matter how deep it has to go to find the children
+
+console.log(h1.childNodes); // not that used
+console.log(h1.children); // updated live collection! Only direct children
+console.log(h1.firstElementChild);
+h1.firstElementChild.style.color = 'white';
+h1.lastElementChild.style.color = 'orangered';
+
+// Going upwards: parents
+console.log(h1.parentNode);
+console.log(h1.parentElement);
+
+// find parent no matter how far
+
+h1.closest('.header').style.background = 'var(--gradient-secondary)';
+
+h1.closest('h1').style.background = 'var(--gradient-primary)';
+
+// going sideways: siblings
+
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+
+console.log(h1.previousSibling);
+console.log(h1.nextSibling);
+
+// All siblings: move up and then get all children
+console.log(h1.parentElement.children);
+[...h1.parentElement.children].forEach(function (el) {
+  if (el !== h1) el.style.transform = 'scale(0.5';
+});
 */
+
+// TAB component
