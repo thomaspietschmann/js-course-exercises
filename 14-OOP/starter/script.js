@@ -171,7 +171,7 @@ Car.prototype.brake = function () {
 
 // challenge 2
 
-class Carcl {
+class CarCl {
   constructor(make, speed) {
     this.make = make;
     this.speed = speed;
@@ -179,10 +179,12 @@ class Carcl {
 
   accelerate() {
     console.log(`Going at ${(this.speed += 10)} km/h`);
+    return this;
   }
 
   brake() {
     console.log(`Slowing down to at ${(this.speed -= 5)} km/h`);
+    return this;
   }
 
   get speedUS() {
@@ -194,37 +196,60 @@ class Carcl {
   }
 }
 
-const audi = new Carcl('Audi', 120);
-console.log(audi.speedUS);
-console.log(audi);
+// const audi = new Carcl('Audi', 120);
+// console.log(audi.speedUS);
+// console.log(audi);
 
-audi.speed = 140;
-audi.brake();
-audi.accelerate();
-audi.speedUS = 53;
+// audi.speed = 140;
+// audi.brake();
+// audi.accelerate();
+// audi.speedUS = 53;
 
-const EV = function (make, speed, charge) {
-  Car.call(this, make, speed);
-  this.charge = charge;
-};
+class EVCl extends CarCl {
+  #charge;
 
-EV.prototype = Object.create(Car.prototype);
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
 
-EV.prototype.chargeBattery = function (chargeTo) {
-  this.charge = chargeTo;
-};
-EV.prototype.accelerate = function (chargeTo) {
-  this.charge -= 1;
-  this.speed += 20;
-  console.log(
-    `${this.make} is going at ${this.speed} km/h with a charge of ${this.charge}!`
-  );
-};
+  accelerate() {
+    this.#charge--;
+    this.speed += 20;
+    console.log(
+      `${this.make} is going at ${this.speed} km/h with a charge of ${
+        this.#charge
+      }!`
+    );
+    return this;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+}
+
+// const EV = function (make, speed, charge) {
+//   Car.call(this, make, speed);
+//   this.charge = charge;
+// };
+
+// EV.prototype = Object.create(Car.prototype);
+
+// EV.prototype.chargeBattery = function (chargeTo) {
+//   this.charge = chargeTo;
+// };
+// EV.prototype.accelerate = function (chargeTo) {
+//   this.charge -= 1;
+//   this.speed += 20;
+//   console.log(`${this.make} is going at ${this.speed} km/h with a charge of ${this.charge}!`);
+// // };
 
 const bmw = new Car('BMW', 120);
 const mercedes = new Car('Mercedes', 120);
 
-const vw = new EV('VW', 120, 56);
+const vw = new EVCl('VW', 120, 56);
 vw.chargeBattery(77);
 vw.accelerate();
 
@@ -232,6 +257,9 @@ bmw.accelerate();
 mercedes.brake();
 vw.brake();
 console.log(vw);
+vw.accelerate().brake().accelerate().chargeBattery(90).accelerate();
+
+console.log(vw.speedUS);
 
 ////
 // INHERITANCE
@@ -267,7 +295,7 @@ console.log(vw);
 // console.log(mike.__proto__.__proto__);
 
 // class declaration
-
+/*
 class PersonCl {
   constructor(fullName, birthYear) {
     this.fullName = fullName;
@@ -371,45 +399,80 @@ johnny.calcAge();
 
 // Another class example
 
+// 1. public (instance) fields
+// 2. private fields
+// 3. public method
+// 4. private method
+// (there are also the corresponding static methods)
+
 class Account {
+  // public (instance) fields
+  locale = navigator.language; // semicolon makes it public field
+
+  // private (instance) fields
+  #movements = []; // not based on input
+  #pin;
+
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
-    this.movements = []; // not based on input
-    this.locale = navigator.language;
+    this.#pin = pin;
 
     console.log(`Thanks for opening an account, ${owner}`);
   }
 
   // Public interface of object (API)
 
+  // 3. public methods / public interface
+
+  getMovements() {
+    return this.#movements;
+  }
+
   deposit(val) {
     // API
-    this.movements.push(val);
+    this.#movements.push(val);
+    return this;
   }
 
   withdraw(val) {
     // API
     this.deposit(-val);
-  }
-
-  approveLoan(val) {
-    return true;
+    return this;
   }
 
   requestLoan(val) {
-    if (this.approveLoan(val)) {
+    if (this._approveLoan(val)) {
       this.deposit(val);
       console.log('Loan approved');
+      return this;
     }
+  }
+
+  static helper() {
+    console.log('Helper!');
+  }
+
+  // 4. private methods
+
+  _approveLoan(val) {
+    return true;
   }
 }
 
 const acc1 = new Account('Thomas', 'EUR', 1111);
 
+// acc1.#movements.push(25);
 acc1.deposit(350);
 acc1.withdraw(140);
 acc1.requestLoan(1000);
 
-console.log(acc1.movements);
+console.log(acc1.getMovements()); // convention
+Account.helper();
+// console.log(acc1.#movements);
+
+// Chaining --> return this from methods!
+
+acc1.deposit(300).deposit(299).withdraw(35).requestLoan(25000).withdraw(4000);
+console.log(acc1.getMovements());
+*/
