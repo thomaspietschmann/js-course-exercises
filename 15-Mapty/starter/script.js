@@ -12,7 +12,6 @@ class Workout {
   }
 
   _setDescription() {
-    console.log(this.date);
     // prettier-ignore
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -78,8 +77,13 @@ class App {
   #workouts = [];
 
   constructor() {
+    // Get user's position
     this._getPosition(); // will start the app
 
+    // Get local storage data
+    this._getLocalStorage();
+
+    // Event handlers
     form.addEventListener('submit', this._newWorkout.bind(this));
 
     inputType.addEventListener('change', this._toggleElevationField);
@@ -111,6 +115,10 @@ class App {
 
     // Handling clicks on map
     this.#map.on('click', this._showForm.bind(this));
+
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
 
   _showForm(mapEv) {
@@ -120,13 +128,14 @@ class App {
   }
 
   _hideForm() {
+    inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value =
+      '';
     form.style.display = 'none';
     form.classList.add('hidden');
     setTimeout(() => (form.style.display = 'grid'), 1000);
   }
 
   _toggleElevationField() {
-    // console.log(e.target.value);
     inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
     inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
   }
@@ -183,7 +192,7 @@ class App {
 
     // add new workout to workout array
     this.#workouts.push(workout);
-    console.log(workout);
+
     // render workout as marker on map
     this._renderWorkoutMarker(workout);
 
@@ -195,8 +204,8 @@ class App {
 
     this._hideForm();
 
-    inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value =
-      '';
+    // Set local storage to all workouts
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -271,7 +280,6 @@ class App {
     const workout = this.#workouts.find(
       work => work.id === workoutEl.dataset.id
     );
-    console.log(workout);
 
     this.#map.setView(workout.coords, this.#mapZoomLevel, {
       animate: true,
@@ -279,7 +287,27 @@ class App {
         duration: 1,
       },
     });
-    workout.click();
+    // workout.click(); // disabled because won't work with objects from local storage
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts'));
+
+    if (!data) return;
+
+    this.#workouts = data;
+    this.#workouts.forEach(work => {
+      this._renderWorkout(work);
+    });
+  }
+
+  reset() {
+    localStorage.removeItem('workouts');
+    location.reload(); // reloads the page
   }
 }
 
