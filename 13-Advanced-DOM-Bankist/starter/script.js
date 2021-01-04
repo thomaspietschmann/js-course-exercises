@@ -539,8 +539,14 @@ document.addEventListener('DOMContentLoaded', e =>
 
 window.addEventListener('load', e => console.log('Page fully loaded', e));
 
+// Shows alert when user is going to close window
+// DO NOT ABUSE THIS FUNCTION!
 // window.addEventListener('beforeunload', e => {
 //   e.preventDefault();
 //   console.log(e);
 //   e.returnValue = '';
 // });
+
+// ways to load script:
+//regular, async, defer
+

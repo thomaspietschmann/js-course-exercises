@@ -382,11 +382,6 @@ const whereAmI = async function () {
 };
 
 whereAmI();
-whereAmI();
-whereAmI();
-whereAmI();
-whereAmI();
-whereAmI();
 console.log('FIRST');
 
 // try {
