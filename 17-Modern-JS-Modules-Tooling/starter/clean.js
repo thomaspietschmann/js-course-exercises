@@ -1,45 +1,57 @@
-var sc = [
+const shoppingCart = [
   { product: 'bread', quantity: 6 },
   { product: 'pizza', quantity: 2 },
   { product: 'milk', quantity: 4 },
   { product: 'water', quantity: 10 },
 ];
 
-var allow = {
+const allowedProducts = {
   lisbon: 5,
   others: 7,
 };
 
-var description = '';
+let description = '';
 
-var check = function (city) {
-  if (sc.length > 0) {
-    var allowed;
-    if (city == 'lisbon') {
-      allowed = allow.lisbon;
-    } else {
-      allowed = allow.others;
-    }
+const checkCorrectAllowedProducts = function (cart, numAllowed, city) {
+  if (!cart.length) return [];
 
-    for (item of sc) {
-      if (item.quantity > allowed) item.quantity = allowed;
-    }
-  }
+  // const allowed = numAllowed[city] > 0 ? numAllowed[city] : numAllowed.others;
+
+  const allowed = numAllowed?.[city] ?? numAllowed.others;
+
+  console.log(allowed);
+
+  const newCart = cart.map(item => {
+    const { product, quantity } = item;
+    return {
+      product,
+      quantity: quantity > allowed ? allowed : quantity,
+    };
+  });
+
+  return newCart;
 };
-check('lisbon');
-console.log(sc);
 
-var createDescription = function () {
-  var first = sc[0];
-  var p = first.product;
-  var q = first.quantity;
+const allowedShoppingCart = checkCorrectAllowedProducts(
+  shoppingCart,
+  allowedProducts,
+  'lisbon'
+);
+// checkCorrectAllowedProducts(shoppingCart, allowedProducts, 'munich');
 
-  if (sc.length > 1) {
-    description = 'Order with ' + q + ' ' + p + ', etc...';
-  } else {
-    description = 'Order with ' + q + ' ' + p + '.';
-  }
+console.log(allowedShoppingCart);
+
+const createOrderDescription = function (cart) {
+  const [{ product: p, quantity: q }] = cart;
+  console.log(cart);
+  console.log(p, q);
+  const first = cart[0];
+  // const p = first.product;
+  // const q = first.quantity;
+
+  return `Order with ${q} ${p}${cart.length > 1 ? ', etc...' : '.'}`;
 };
-createDescription();
 
-console.log(description);
+const orderDescription = createOrderDescription(allowedShoppingCart);
+
+console.log(orderDescription);

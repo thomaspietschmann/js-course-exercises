@@ -12,14 +12,15 @@ import * as ShoppingCart from './shoppingCart.js';
 ShoppingCart.addToCart('bread', 5);
 console.log(ShoppingCart.totalPrice);
 
+*/
 // default import
 import add from './shoppingCart.js';
 import { cart } from './shoppingCart.js';
+add('milk', 10);
 
 console.log(cart);
 
-add('milk', 10);
-
+/*
 // AVOID!
 // // mixing all in one import statement
 // import add, { addToCart, totalPrice as price, tq } from './shoppingCart.js';
@@ -53,8 +54,9 @@ const ShoppingCart2 = (function () {
 ShoppingCart2.addToCart('apple', 2);
 
 */
+// import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+import cloneDeep from 'lodash-es';
 
-import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
 const state = {
   cart: [
     { product: 'bread', quantity: 5 },
@@ -70,3 +72,35 @@ state.user.loggedIn = false;
 console.log(stateClone);
 
 console.log(stateDeepClone);
+
+// for parcel, will automatically inject new package into browser without reloading maintaining state
+if (module.hot) {
+  module.hot.accept();
+}
+
+class Person {
+  #greeting = 'hey';
+  constructor(name) {
+    this.name = name;
+    console.log(`${this.greeting}, ${name}`);
+  }
+}
+
+const thomas = new Person('Thomas');
+
+console.log('Thomas' ?? null);
+
+// not all features can be transpiled
+
+console.log(cart.find(el => el.quantity >= 2));
+
+Promise.resolve('Test').then(x => console.log(x));
+
+// but they can be polyfilled :)
+
+// import 'core-js/stable'; // will import EVERYTHING
+import 'core-js/stable/array/find'; // will import EVERYTHING
+import 'core-js/stable/promise'; // will import EVERYTHING
+
+// Polyfilling async functions
+import 'regenerator-runtime/runtime';

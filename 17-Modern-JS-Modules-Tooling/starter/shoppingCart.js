@@ -1,6 +1,6 @@
 // Exporting module
 // exports only work on top level code!
-/*
+
 console.log('Exporting module');
 
 const shippingCost = 10;
@@ -22,4 +22,3 @@ export default function (product, quantity) {
   cart.push({ product, quantity });
   console.log(`${quantity} o ${product} added to cart`);
 }
-*/
