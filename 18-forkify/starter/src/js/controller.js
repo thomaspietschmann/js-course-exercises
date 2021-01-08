@@ -24,6 +24,9 @@ const controlRecipes = async function () {
     if (!id) return; // guard clause in case there is no ID in the URL
     recipeView.renderSpinner();
 
+    // Update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
+
     // 1 Loading recipe
     await model.loadRecipe(id); // returns a promise, therefore use await!
 
@@ -57,9 +60,8 @@ const controlPagination = function (goToPage) {
 const controlServings = function (newServings) {
   // Update the recipe servings (in state)
   model.updateServings(newServings);
-  recipeView.render(model.state.recipe);
-
-  // Update the recipe view
+  // recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe); // run new method instead of render to prevent flashing reload effect
 };
 
 const init = function () {
