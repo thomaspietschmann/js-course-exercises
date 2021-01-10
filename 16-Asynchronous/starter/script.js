@@ -366,32 +366,130 @@ const whereAmI = async function () {
     const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
     if (!resGeo.ok) throw new Error('no geocoder response');
     const dataGeo = await resGeo.json();
-    console.log(dataGeo);
-    console.log(dataGeo.country);
+    // console.log(dataGeo);
+    // console.log(dataGeo.country);
     const response = await fetch(
       `https://restcountries.eu/rest/v2/name/${dataGeo.country}`
     ); // will return a promise and store in a variable
     if (!response.ok) throw new Error('Problem getting country');
     const data = await response.json();
-    console.log(data[0]);
+    // console.log(data[0]);
     renderCountry(data[0], '');
+    return `You are in ${dataGeo.city}, ${dataGeo.country}`;
   } catch (err) {
     console.error(err.message);
     renderError(` !!!! ${err.message}`);
+    throw err;
   }
 };
 
-whereAmI();
-console.log('FIRST');
+// console.log('1: Will get location');
+// // const city = whereAmI();
+// // console.log(city);
 
-// try {
-//   let y = 1;
-//   const x = 2;
-//   x = 3;
-// } catch (err) {
-//   console.error(err.message);
-// }
+// whereAmI()
+//   .then(city => console.log(`2) ${city}`))
+//   .catch(err => console.error(`2) ${err.message}`))
+//   .finally(() => console.log('3: Finished getting location'));
 
-// await will stop execution until promise has been fulfilled
+// (async function () {
+//   console.log('1: Will get location');
+//   try {
+//     const city = await whereAmI();
+//     console.log(`2) ${city}`);
+//   } catch (error) {
+//     console.error(`2) ${error.message}`);
+//   }
+//   console.log('3: Finished getting location');
+// })();
+const getJSON = function (url, errorMsg = 'something went wrong') {
+  console.log('fetching data');
+  return fetch(url).then(response => {
+    if (!response.ok) throw new Error(errorMsg);
+    return response.json();
+  });
+};
 
-// btn.addEventListener('click', whereAmI);
+// Running parallel calls
+
+// const get3Countries = async function (c1, c2, c3) {
+//   try {
+//     // const [data1] = await getJSON(
+//     //   `https://restcountries.eu/rest/v2/name/${c1}`
+//     // );
+//     // const [data2] = await getJSON(
+//     //   `https://restcountries.eu/rest/v2/name/${c2}`
+//     // );
+//     // const [data3] = await getJSON(
+//     //   `https://restcountries.eu/rest/v2/name/${c3}`
+//     // );
+
+//     const data = await Promise.all([
+//       getJSON(`https://restcountries.eu/rest/v2/name/${c1}`),
+//       getJSON(`https://restcountries.eu/rest/v2/name/${c2}`),
+//       getJSON(`https://restcountries.eu/rest/v2/name/${c3}`),
+//     ]);
+
+//     console.log(data.map(data => data[0].capital));
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+
+// get3Countries('portugal', 'canada', 'tanzania');
+
+// Promise race: first settled promise wins the race
+// only one result! Rejected promises can also win the race.
+
+// (async function () {
+//   const res = await Promise.race([
+//     getJSON(`https://restcountries.eu/rest/v2/name/italy`),
+//     getJSON(`https://restcountries.eu/rest/v2/name/egypt`),
+//     getJSON(`https://restcountries.eu/rest/v2/name/mexico`),
+//   ]);
+//   console.log(res[0]);
+// })();
+
+const timeout = function (sec) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error('request took too long'));
+    }, sec * 1000);
+  });
+};
+
+Promise.race([
+  getJSON(`https://restcountries.eu/rest/v2/name/tanzania`),
+  timeout(0.5),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+// Promise.allSettled (array of Promises, returns array of all Settled promises)
+
+Promise.allSettled([
+  Promise.resolve('Success'),
+  Promise.resolve('more success'),
+  Promise.resolve('most success'),
+  Promise.reject('what an error!'),
+]).then(res => console.log(res));
+
+Promise.all([
+  Promise.resolve('Success'),
+  Promise.resolve('more success'),
+  Promise.resolve('most success'),
+  Promise.reject('what an error!'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+// Promise.any
+
+Promise.any([
+  Promise.resolve('Success'),
+  Promise.resolve('more success'),
+  Promise.resolve('most success'),
+  Promise.reject('what an error!'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
