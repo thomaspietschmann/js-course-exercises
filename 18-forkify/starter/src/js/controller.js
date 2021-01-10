@@ -92,7 +92,6 @@ const controlAddRecipe = async function (newRecipe) {
   try {
     // Show spinner
     addRecipeView.renderSpinner();
-
     // Upload new recipe data
     await model.uploadRecipe(newRecipe);
     console.log(model.state.recipe);
@@ -102,6 +101,11 @@ const controlAddRecipe = async function (newRecipe) {
     // SUCCESS message
     addRecipeView.renderMessage();
 
+    // Render bookmark view
+    bookmarksView.render(model.state.bookmarks);
+
+    // Change ID in URL
+    // window.history.pushState(null, '', `${model.state.recipe.id}`); // state, title, URL
     // Close form window
     setTimeout(function () {
       addRecipeView.toggleWindow();

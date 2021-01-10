@@ -6,6 +6,12 @@ export default class View {
   _errorMessage = 'We could not find that recipe. Please try another one.';
   _message = '';
 
+  /**
+   * Render the received object to the DOM
+   * @param {Object | Object[]} data The data to be rendered (e.g. recipe)
+   * @param {boolean} [render=true] If false, create markup string instead of rendering to the DOM
+   */
+
   render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
