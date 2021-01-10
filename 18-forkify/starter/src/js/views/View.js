@@ -10,6 +10,10 @@ export default class View {
    * Render the received object to the DOM
    * @param {Object | Object[]} data The data to be rendered (e.g. recipe)
    * @param {boolean} [render=true] If false, create markup string instead of rendering to the DOM
+   * @returns {undefined | string} A markup is returned if rendered=false
+   * @this {Object} View instance
+   * @author Thomas Pietschmann
+   * @todo Finish implementation
    */
 
   render(data, render = true) {
