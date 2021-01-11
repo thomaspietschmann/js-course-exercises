@@ -307,6 +307,7 @@ const whereAmI = function () {
     .finally((countriesContainer.style.opacity = 1));
 };
 
+*/
 
 const wait = function (seconds) {
   return new Promise(resolve => {
@@ -332,26 +333,58 @@ const createImage = function (imgPath) {
 
 let currentImg;
 
-createImage('img/img-1.jpg')
-  .then(img => {
-    currentImg = img;
-    console.log('Image 1 loaded');
-    return wait(2);
-  })
-  .then(() => {
-    currentImg.style.display = 'none';
-    return createImage('img/img-2.jpg');
-  })
-  .then(img => {
-    currentImg = img;
-    console.log('Image 2 loaded');
-    return wait(2);
-  })
-  .then(() => {
-    currentImg.style.display = 'none';
-  })
-  .catch(err => console.error(err));
-  */
+// createImage('img/img-1.jpg')
+//   .then(img => {
+//     currentImg = img;
+//     console.log('Image 1 loaded');
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = 'none';
+//     return createImage('img/img-2.jpg');
+//   })
+//   .then(img => {
+//     currentImg = img;
+//     console.log('Image 2 loaded');
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = 'none';
+//   })
+//   .catch(err => console.error(err));
+
+// Coding challenge 3
+
+// const loadNPause = async function () {
+//   try {
+//     console.log('creating image 1');
+//     let img = await createImage('img/img-1.jpg');
+//     await wait(2);
+//     img.style.display = 'none';
+//     console.log('creating image 2');
+//     img = await createImage('img/img-2.jpg');
+//     await wait(2);
+//     img.style.display = 'none';
+//     console.log('done');
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+// loadNPause();
+
+const loadAll = async function (imgArr) {
+  try {
+    const imgs = imgArr.map(async img => await createImage(img));
+    console.log(imgs);
+    const imgsEl = await Promise.all(imgs);
+    imgsEl.forEach(img => img.classList.add('parallel'));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
 
 const getPosition = function () {
   return new Promise(function (resolve, reject) {
@@ -450,46 +483,46 @@ const getJSON = function (url, errorMsg = 'something went wrong') {
 //   console.log(res[0]);
 // })();
 
-const timeout = function (sec) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error('request took too long'));
-    }, sec * 1000);
-  });
-};
+// const timeout = function (sec) {
+//   return new Promise(function (_, reject) {
+//     setTimeout(function () {
+//       reject(new Error('request took too long'));
+//     }, sec * 1000);
+//   });
+// };
 
-Promise.race([
-  getJSON(`https://restcountries.eu/rest/v2/name/tanzania`),
-  timeout(0.5),
-])
-  .then(res => console.log(res))
-  .catch(err => console.error(err));
+// Promise.race([
+//   getJSON(`https://restcountries.eu/rest/v2/name/tanzania`),
+//   timeout(0.5),
+// ])
+//   .then(res => console.log(res))
+//   .catch(err => console.error(err));
 
-// Promise.allSettled (array of Promises, returns array of all Settled promises)
+// // Promise.allSettled (array of Promises, returns array of all Settled promises)
 
-Promise.allSettled([
-  Promise.resolve('Success'),
-  Promise.resolve('more success'),
-  Promise.resolve('most success'),
-  Promise.reject('what an error!'),
-]).then(res => console.log(res));
+// Promise.allSettled([
+//   Promise.resolve('Success'),
+//   Promise.resolve('more success'),
+//   Promise.resolve('most success'),
+//   Promise.reject('what an error!'),
+// ]).then(res => console.log(res));
 
-Promise.all([
-  Promise.resolve('Success'),
-  Promise.resolve('more success'),
-  Promise.resolve('most success'),
-  Promise.reject('what an error!'),
-])
-  .then(res => console.log(res))
-  .catch(err => console.error(err));
+// Promise.all([
+//   Promise.resolve('Success'),
+//   Promise.resolve('more success'),
+//   Promise.resolve('most success'),
+//   Promise.reject('what an error!'),
+// ])
+//   .then(res => console.log(res))
+//   .catch(err => console.error(err));
 
-// Promise.any
+// // Promise.any, returns if one of the promises resolves
 
-Promise.any([
-  Promise.resolve('Success'),
-  Promise.resolve('more success'),
-  Promise.resolve('most success'),
-  Promise.reject('what an error!'),
-])
-  .then(res => console.log(res))
-  .catch(err => console.error(err));
+// Promise.any([
+//   Promise.resolve('Success'),
+//   Promise.resolve('more success'),
+//   Promise.resolve('most success'),
+//   Promise.reject('what an error!'),
+// ])
+//   .then(res => console.log(res))
+//   .catch(err => console.error(err));
